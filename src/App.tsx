@@ -1,9 +1,9 @@
 import React from "react";
 import "./App.css";
 
-import { getWindowWithEthereumWallet } from "./windowWithEthereumWallet";
+import { windowWithEthereumWallet } from "./windowWithEthereumWallet";
 
-const getEthereumObject = () => getWindowWithEthereumWallet().ethereum;
+const getEthereumObject = () => windowWithEthereumWallet.ethereum;
 
 function App() {
   return (
