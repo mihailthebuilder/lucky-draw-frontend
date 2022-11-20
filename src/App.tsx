@@ -5,7 +5,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <button>Connect wallet</button>
+        <button className="connect-wallet">Connect wallet</button>
         <div>Total balance:</div>
       </header>
     </div>
