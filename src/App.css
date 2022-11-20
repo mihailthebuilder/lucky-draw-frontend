@@ -13,6 +13,12 @@
   color: white;
 }
 
-button.connect-wallet {
-  margin-bottom: 2rem;
+.connect-wallet {
+  @apply font-bold py-2 px-4 rounded;
+  @apply bg-blue-500 text-white;
+  @apply mb-5;
+}
+
+.connect-wallet:hover {
+  @apply bg-blue-700;
 }
