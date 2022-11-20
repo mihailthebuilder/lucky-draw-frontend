@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.c0e66cae.css",
-    "main.js": "/static/js/main.a84a967c.js",
-    "static/js/787.c9536716.chunk.js": "/static/js/787.c9536716.chunk.js",
-    "index.html": "/index.html",
-    "main.c0e66cae.css.map": "/static/css/main.c0e66cae.css.map",
-    "main.a84a967c.js.map": "/static/js/main.a84a967c.js.map",
-    "787.c9536716.chunk.js.map": "/static/js/787.c9536716.chunk.js.map"
+    "main.css": "/lucky-draw-frontend/static/css/main.c0e66cae.css",
+    "main.js": "/lucky-draw-frontend/static/js/main.8b8d31cb.js",
+    "static/js/787.c9536716.chunk.js": "/lucky-draw-frontend/static/js/787.c9536716.chunk.js",
+    "index.html": "/lucky-draw-frontend/index.html",
+    "main.c0e66cae.css.map": "/lucky-draw-frontend/static/css/main.c0e66cae.css.map",
+    "main.8b8d31cb.js.map": "/lucky-draw-frontend/static/js/main.8b8d31cb.js.map",
+    "787.c9536716.chunk.js.map": "/lucky-draw-frontend/static/js/787.c9536716.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c0e66cae.css",
-    "static/js/main.a84a967c.js"
+    "static/js/main.8b8d31cb.js"
   ]
 }
