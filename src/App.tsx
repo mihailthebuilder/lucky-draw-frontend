@@ -1,24 +1,22 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./App.css";
 
-import { providers } from "ethers";
+import { getWindowWithEthereumWallet } from "./windowWithEthereumWallet";
 
-type WindowWithWallet = {
-  ethereum: providers.ExternalProvider;
-};
-
-const getEthereumObject = (window: WindowWithWallet) => window.ethereum;
+const getEthereumObject = () => getWindowWithEthereumWallet().ethereum;
 
 function App() {
-  useEffect(() => {
-    console.log(getEthereumObject(window as any as WindowWithWallet));
-  });
-
   return (
     <div className="App">
       <header className="App-header">
-        <button className="connect-wallet">Connect wallet</button>
-        <div>Total balance:</div>
+        {getEthereumObject() ? (
+          <>
+            <button className="connect-wallet">Connect wallet</button>
+            <div>Total balance:</div>
+          </>
+        ) : (
+          <div>Please add MetaMask to your browser</div>
+        )}
       </header>
     </div>
   );
