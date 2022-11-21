@@ -5,19 +5,13 @@ import { windowWithEthereumWallet } from "./windowWithEthereumWallet";
 
 type AccountsInBrowser = string[];
 
-const getEthereumObjectFromWindow = () => windowWithEthereumWallet.ethereum;
-
 const findMetamaskAccount: () => Promise<string> = async () => {
-  const eth = getEthereumObjectFromWindow();
-  if (!eth) {
+  const ethereumObjectFromWindow = windowWithEthereumWallet.ethereum;
+  if (!ethereumObjectFromWindow?.request) {
     throw "No Ethereum object in window";
   }
 
-  if (!eth.request) {
-    throw "Invalid Ethereum object in window";
-  }
-
-  const accounts = (await eth.request({
+  const accounts = (await ethereumObjectFromWindow.request({
     method: "eth_accounts",
   })) as AccountsInBrowser;
 
