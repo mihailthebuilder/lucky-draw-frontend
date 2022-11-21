@@ -15,7 +15,7 @@ function App() {
             <div>Total balance:</div>
           </>
         ) : (
-          <div>Please add MetaMask to your browser</div>
+          <div>Please add MetaMask to your browser and set up a wallet</div>
         )}
       </header>
     </div>

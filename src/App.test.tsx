@@ -4,10 +4,12 @@ import App from "./App";
 
 import { windowWithEthereumWallet } from "./windowWithEthereumWallet";
 
-describe("given browser doesn't have MetaMask wallet", () => {
-  test("render message asking for the account", () => {
+describe("given browser doesn't have ethereum object in window", () => {
+  test("render message asking for the wallet", () => {
     render(<App />);
-    screen.getByText(/please add MetaMask to your browser/i);
+    screen.getByText(
+      /please add MetaMask to your browser and set up a wallet/i
+    );
   });
 });
 
