@@ -43,6 +43,7 @@ function App() {
         {metamaskAccount ? (
           <>
             <p>Your Metamask account address: {metamaskAccount}</p>
+            <p>Balance in contract: </p>
           </>
         ) : (
           <div>Please add MetaMask to your browser and set up a wallet</div>

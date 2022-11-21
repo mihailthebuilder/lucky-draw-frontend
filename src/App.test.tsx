@@ -40,5 +40,6 @@ describe("given browser has MetaMask wallet", () => {
     });
 
     screen.getByText(/your metamask account address: account1/i);
+    screen.getByText(/balance in contract/i);
   });
 });
