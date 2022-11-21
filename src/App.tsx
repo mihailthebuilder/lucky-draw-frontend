@@ -42,8 +42,7 @@ function App() {
       <header className="App-header">
         {metamaskAccount ? (
           <>
-            <button className="connect-wallet">Connect wallet</button>
-            <div>Total balance:</div>
+            <div>Your Metamask account address: {metamaskAccount}</div>
           </>
         ) : (
           <div>Please add MetaMask to your browser and set up a wallet</div>

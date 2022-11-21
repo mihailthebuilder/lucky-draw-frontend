@@ -39,9 +39,6 @@ describe("given browser has MetaMask wallet", () => {
       render(<App />);
     });
 
-    const connectWalletButton = screen.getByText(/connect wallet/i);
-    expect(connectWalletButton.tagName.toLowerCase()).toEqual("button");
-
-    screen.getByText(/total balance:/i);
+    screen.getByText(/your metamask account address: account1/i);
   });
 });
