@@ -21,8 +21,6 @@ const findMetamaskAccount: () => Promise<string> = async () => {
     method: "eth_accounts",
   })) as AccountsInBrowser;
 
-  console.log(accounts);
-
   if (accounts.length == 0) {
     throw "No authorised account found";
   }
