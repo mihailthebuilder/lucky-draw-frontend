@@ -42,7 +42,7 @@ function App() {
       <header className="App-header">
         {metamaskAccount ? (
           <>
-            <div>Your Metamask account address: {metamaskAccount}</div>
+            <p>Your Metamask account address: {metamaskAccount}</p>
           </>
         ) : (
           <div>Please add MetaMask to your browser and set up a wallet</div>
