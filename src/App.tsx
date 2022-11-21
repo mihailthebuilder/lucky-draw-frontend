@@ -7,7 +7,7 @@ type AccountsInBrowser = string[];
 
 const getEthereumObjectFromWindow = () => windowWithEthereumWallet.ethereum;
 
-const findMetamaskAccount: () => Promise<string> = async () => {
+const getMetamaskAccount: () => Promise<string> = async () => {
   const eth = getEthereumObjectFromWindow();
   if (!eth?.request) {
     throw "No Ethereum object in window";
@@ -28,7 +28,7 @@ function App() {
   const [metamaskAccount, setMetamaskAccount] = useState<string>();
 
   useEffect(() => {
-    findMetamaskAccount()
+    getMetamaskAccount()
       .then((account) => {
         setMetamaskAccount(account);
       })
