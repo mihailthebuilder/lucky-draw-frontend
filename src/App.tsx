@@ -3,13 +3,13 @@ import "./App.css";
 
 import { windowWithEthereumWallet } from "./windowWithEthereumWallet";
 
-const getEthereumObject = () => windowWithEthereumWallet.ethereum;
+const getEthereumObjectFromWindow = () => windowWithEthereumWallet.ethereum;
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {getEthereumObject() ? (
+        {getEthereumObjectFromWindow() ? (
           <>
             <button className="connect-wallet">Connect wallet</button>
             <div>Total balance:</div>
