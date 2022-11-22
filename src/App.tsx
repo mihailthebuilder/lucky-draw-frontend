@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import contractJson from "./LuckyDraw.json";
 import "./App.css";
-import { providers, Contract } from "ethers";
+import { providers, Contract, BigNumber } from "ethers";
 
 import { windowWithEthereumWallet } from "./windowWithEthereumWallet";
 
@@ -44,10 +44,9 @@ function App() {
         const signer = provider.getSigner();
         const contract = new Contract(contractAddress, contractABI, signer);
 
-        contract
-          .balance()
-          .then((val: any) => setContractBalance(val.toNumber()))
-          .catch((err: any) => {
+        (contract.balance() as Promise<any>)
+          .then((val: BigNumber) => setContractBalance(val.toNumber()))
+          .catch((err) => {
             console.error(err);
           });
       })
