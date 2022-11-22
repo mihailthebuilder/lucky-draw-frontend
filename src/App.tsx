@@ -13,7 +13,7 @@ const contractABI = contractJson.abi;
 
 const getEthereumObjectFromWindow = () => windowWithEthereumWallet.ethereum;
 
-const getMetamaskAccount: (
+const getWalletAddress: (
   ethereumObjectFromWindow: providers.ExternalProvider
 ) => Promise<string> = async (eth) => {
   if (!eth?.request) {
@@ -44,15 +44,15 @@ const getContractBalance: (
 };
 
 function App() {
-  const [metamaskAccount, setMetamaskAccount] = useState<string>();
+  const [walletAddress, setWalletAddress] = useState<string>();
   const [contractBalance, setContractBalance] = useState<number>();
 
   useEffect(() => {
     const eth = getEthereumObjectFromWindow();
 
-    getMetamaskAccount(eth)
+    getWalletAddress(eth)
       .then((account) => {
-        setMetamaskAccount(account);
+        setWalletAddress(account);
       })
       .catch((err) => {
         console.error(err);
@@ -68,7 +68,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>Your Metamask account address: {metamaskAccount}</p>
+        <p>Your Metamask account address: {walletAddress}</p>
         <p>Balance in contract: {contractBalance}</p>
       </header>
     </div>
