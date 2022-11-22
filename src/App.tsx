@@ -30,6 +30,17 @@ const getMetamaskAccount: () => Promise<string> = async () => {
   return accounts[0];
 };
 
+const getContractBalance: () => Promise<number> = async () => {
+  const eth = getEthereumObjectFromWindow();
+  const provider = new providers.Web3Provider(eth);
+  const signer = provider.getSigner();
+  const contract = new Contract(contractAddress, contractABI, signer);
+
+  const balance = contract.balance() as Promise<BigNumber>;
+
+  return (await balance).toNumber();
+};
+
 function App() {
   const [metamaskAccount, setMetamaskAccount] = useState<string>();
   const [contractBalance, setContractBalance] = useState<number>();
@@ -38,18 +49,13 @@ function App() {
     getMetamaskAccount()
       .then((account) => {
         setMetamaskAccount(account);
-
-        const eth = getEthereumObjectFromWindow();
-        const provider = new providers.Web3Provider(eth);
-        const signer = provider.getSigner();
-        const contract = new Contract(contractAddress, contractABI, signer);
-
-        (contract.balance() as Promise<any>)
-          .then((val: BigNumber) => setContractBalance(val.toNumber()))
-          .catch((err) => {
-            console.error(err);
-          });
       })
+      .catch((err) => {
+        console.error(err);
+      });
+
+    getContractBalance()
+      .then((balance) => setContractBalance(balance))
       .catch((err) => {
         console.error(err);
       });
