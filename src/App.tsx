@@ -68,14 +68,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {metamaskAccount ? (
-          <>
-            <p>Your Metamask account address: {metamaskAccount}</p>
-            <p>Balance in contract: {contractBalance}</p>
-          </>
-        ) : (
-          <div>Please add MetaMask to your browser and set up a wallet</div>
-        )}
+        <p>Your Metamask account address: {metamaskAccount}</p>
+        <p>Balance in contract: {contractBalance}</p>
       </header>
     </div>
   );
