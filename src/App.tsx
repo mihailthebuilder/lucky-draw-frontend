@@ -13,8 +13,9 @@ const contractABI = contractJson.abi;
 
 const getEthereumObjectFromWindow = () => windowWithEthereumWallet.ethereum;
 
-const getMetamaskAccount: () => Promise<string> = async () => {
-  const eth = getEthereumObjectFromWindow();
+const getMetamaskAccount: (
+  ethereumObjectFromWindow: providers.ExternalProvider
+) => Promise<string> = async (eth) => {
   if (!eth?.request) {
     throw "No Ethereum object in window";
   }
@@ -30,8 +31,9 @@ const getMetamaskAccount: () => Promise<string> = async () => {
   return accounts[0];
 };
 
-const getContractBalance: () => Promise<number> = async () => {
-  const eth = getEthereumObjectFromWindow();
+const getContractBalance: (
+  ethereumObjectFromWindow: providers.ExternalProvider
+) => Promise<number> = async (eth) => {
   const provider = new providers.Web3Provider(eth);
   const signer = provider.getSigner();
   const contract = new Contract(contractAddress, contractABI, signer);
@@ -46,7 +48,9 @@ function App() {
   const [contractBalance, setContractBalance] = useState<number>();
 
   useEffect(() => {
-    getMetamaskAccount()
+    const eth = getEthereumObjectFromWindow();
+
+    getMetamaskAccount(eth)
       .then((account) => {
         setMetamaskAccount(account);
       })
@@ -54,7 +58,7 @@ function App() {
         console.error(err);
       });
 
-    getContractBalance()
+    getContractBalance(eth)
       .then((balance) => setContractBalance(balance))
       .catch((err) => {
         console.error(err);
