@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
+import contractJson from "./LuckyDraw.json";
 import "./App.css";
+import { providers, Contract } from "ethers";
 
 import { windowWithEthereumWallet } from "./windowWithEthereumWallet";
 
 type AccountsInBrowser = string[];
+
+const contractAddress = "0x9425F287aEb94d46FeBfF996b0DbCf78E52c9D05";
+
+const contractABI = contractJson.abi;
 
 const getEthereumObjectFromWindow = () => windowWithEthereumWallet.ethereum;
 
@@ -26,11 +32,24 @@ const getMetamaskAccount: () => Promise<string> = async () => {
 
 function App() {
   const [metamaskAccount, setMetamaskAccount] = useState<string>();
+  const [contractBalance, setContractBalance] = useState<number>();
 
   useEffect(() => {
     getMetamaskAccount()
       .then((account) => {
         setMetamaskAccount(account);
+
+        const eth = getEthereumObjectFromWindow();
+        const provider = new providers.Web3Provider(eth);
+        const signer = provider.getSigner();
+        const contract = new Contract(contractAddress, contractABI, signer);
+
+        contract
+          .balance()
+          .then((val: any) => setContractBalance(val.toNumber()))
+          .catch((err: any) => {
+            console.error(err);
+          });
       })
       .catch((err) => {
         console.error(err);
@@ -43,7 +62,7 @@ function App() {
         {metamaskAccount ? (
           <>
             <p>Your Metamask account address: {metamaskAccount}</p>
-            <p>Balance in contract: </p>
+            <p>Balance in contract: {contractBalance}</p>
           </>
         ) : (
           <div>Please add MetaMask to your browser and set up a wallet</div>
