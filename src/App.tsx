@@ -11,10 +11,12 @@ function App() {
   const [walletAddress, setWalletAddress] = useState<string>();
   const [contractBalance, setContractBalance] = useState<number>();
   const [waitingForContractResponse, setWaitingForContractResponse] =
-    useState<boolean>();
+    useState(false);
+  const [playedAtLeastOnce, setPlayedAtLeastOnce] = useState(false);
 
   const handlePlayClick = () => {
     setWaitingForContractResponse(true);
+    setPlayedAtLeastOnce(true);
   };
 
   useEffect(() => {
@@ -41,11 +43,12 @@ function App() {
         <p>Your Metamask account address: {walletAddress}</p>
         <p>Balance in contract: {contractBalance}</p>
         <button onClick={handlePlayClick}>Play</button>
-        {waitingForContractResponse ? (
-          <div>Waiting for contract response</div>
-        ) : (
-          <div>Result of the draw is: you won!</div>
-        )}
+        {playedAtLeastOnce &&
+          (waitingForContractResponse ? (
+            <div>Waiting for contract response</div>
+          ) : (
+            <div>Result of the draw is: you won!</div>
+          ))}
       </header>
     </div>
   );
