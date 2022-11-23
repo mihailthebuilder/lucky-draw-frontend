@@ -16,14 +16,12 @@ const contractABI = contractJson.abi;
 
 export const getEthereumObjectFromWindow = () => windowWithEthereumWallet.ethereum;
 
-export const getWalletAddress: (
-    ethereumObjectFromWindow: providers.ExternalProvider
-) => Promise<string> = async (eth) => {
-    if (!eth?.request) {
+export const getWalletAddress = async (ethereumObjectFromWindow: providers.ExternalProvider) => {
+    if (!ethereumObjectFromWindow?.request) {
         throw "No Ethereum object in window";
     }
 
-    const accounts = (await eth.request({
+    const accounts = (await ethereumObjectFromWindow.request({
         method: "eth_accounts",
     })) as AccountsInBrowser;
 
@@ -34,10 +32,8 @@ export const getWalletAddress: (
     return accounts[0];
 };
 
-export const getContractBalance: (
-    ethereumObjectFromWindow: providers.ExternalProvider
-) => Promise<number> = async (eth) => {
-    const provider = new providers.Web3Provider(eth);
+export const getContractBalance = async (ethereumObjectFromWindow: providers.ExternalProvider) => {
+    const provider = new providers.Web3Provider(ethereumObjectFromWindow);
     const signer = provider.getSigner();
     const contract = new Contract(contractAddress, contractABI, signer);
 
