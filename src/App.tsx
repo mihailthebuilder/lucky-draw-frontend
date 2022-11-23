@@ -10,6 +10,12 @@ import {
 function App() {
   const [walletAddress, setWalletAddress] = useState<string>();
   const [contractBalance, setContractBalance] = useState<number>();
+  const [waitingForContractResponse, setWaitingForContractResponse] =
+    useState<boolean>();
+
+  const handlePlayClick = () => {
+    setWaitingForContractResponse(true);
+  };
 
   useEffect(() => {
     const eth = getEthereumObjectFromWindow();
@@ -34,6 +40,12 @@ function App() {
       <header className="App-header">
         <p>Your Metamask account address: {walletAddress}</p>
         <p>Balance in contract: {contractBalance}</p>
+        <button onClick={handlePlayClick}>Play</button>
+        {waitingForContractResponse ? (
+          <div>Waiting for contract response</div>
+        ) : (
+          <div>Result of the draw is: you won!</div>
+        )}
       </header>
     </div>
   );
