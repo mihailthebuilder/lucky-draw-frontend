@@ -10,7 +10,7 @@ export const windowWithEthereumWallet = window as any as WindowWithEthereumWalle
 
 type AccountsInBrowser = string[];
 
-type LuckyDrawContract = {
+export type LuckyDrawContract = {
     balance(): Promise<BigNumber>
     draw(): Promise<Transaction>
 }

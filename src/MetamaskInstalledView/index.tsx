@@ -62,17 +62,14 @@ const MetamaskInstalledView = ({
 
   return (
     <>
-      <p>
-        Your Metamask account address:{" "}
-        {walletAddress ? walletAddress : "loading..."}
-      </p>
+      <p>Your Metamask account address: {walletAddress}</p>
       <p>Balance in contract: {contractBalance}</p>
       <button onClick={handlePlayClick}>Play</button>
       {playedAtLeastOnce &&
         (waitingForContractResponse ? (
-          <div>Waiting for contract response</div>
+          <p>Waiting for contract response...</p>
         ) : (
-          <div>Result of the draw is: you {wonTheDraw ? "won" : "lost"}!</div>
+          <p>Result of the draw is: you {wonTheDraw ? "won" : "lost"}!</p>
         ))}
     </>
   );
