@@ -41,3 +41,12 @@ export const getContractBalance = async (ethereumObjectFromWindow: providers.Ext
 
     return (await balance).toNumber();
 };
+
+export const play = async (ethereumObjectFromWindow: providers.ExternalProvider) => {
+    const provider = new providers.Web3Provider(ethereumObjectFromWindow);
+    const signer = provider.getSigner();
+    const contract = new Contract(contractAddress, contractABI, signer);
+
+    const transaction = await contract.draw();
+    await transaction.wait();
+}

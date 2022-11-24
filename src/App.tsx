@@ -5,6 +5,7 @@ import {
   getContractBalance,
   getEthereumObjectFromWindow,
   getWalletAddress,
+  play,
 } from "./helpers";
 
 function App() {
@@ -14,14 +15,22 @@ function App() {
     useState(false);
   const [playedAtLeastOnce, setPlayedAtLeastOnce] = useState(false);
 
+  const eth = getEthereumObjectFromWindow();
+
   const handlePlayClick = () => {
     setWaitingForContractResponse(true);
     setPlayedAtLeastOnce(true);
+
+    play(eth)
+      .then(() => {
+        setWaitingForContractResponse(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
-    const eth = getEthereumObjectFromWindow();
-
     getWalletAddress(eth)
       .then((account) => {
         setWalletAddress(account);
