@@ -33,20 +33,20 @@ export const getWalletAddress = async (ethereumObjectFromWindow: providers.Exter
 };
 
 export const getContractBalance = async (ethereumObjectFromWindow: providers.ExternalProvider) => {
-    const provider = new providers.Web3Provider(ethereumObjectFromWindow);
-    const signer = provider.getSigner();
-    const contract = new Contract(contractAddress, contractABI, signer);
-
+    const contract = getContract(ethereumObjectFromWindow);
     const balance = contract.balance() as Promise<BigNumber>;
-
     return (await balance).toNumber();
 };
 
 export const play = async (ethereumObjectFromWindow: providers.ExternalProvider) => {
-    const provider = new providers.Web3Provider(ethereumObjectFromWindow);
-    const signer = provider.getSigner();
-    const contract = new Contract(contractAddress, contractABI, signer);
+    const contract = getContract(ethereumObjectFromWindow);
 
     const transaction = await contract.draw();
     await transaction.wait();
+}
+
+const getContract = (ethereumObjectFromWindow: providers.ExternalProvider) => {
+    const provider = new providers.Web3Provider(ethereumObjectFromWindow);
+    const signer = provider.getSigner();
+    return new Contract(contractAddress, contractABI, signer);
 }
