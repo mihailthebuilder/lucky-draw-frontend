@@ -32,8 +32,8 @@ function App() {
 
   useEffect(() => {
     getWalletAddress(eth)
-      .then((account) => {
-        setWalletAddress(account);
+      .then((address) => {
+        setWalletAddress(address);
       })
       .catch((err) => {
         console.error(err);
