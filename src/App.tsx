@@ -6,6 +6,7 @@ import {
   getEthereumObjectFromWindow,
   getWalletAddress,
   play,
+  getContract,
 } from "./helpers";
 
 function App() {
@@ -16,12 +17,13 @@ function App() {
   const [playedAtLeastOnce, setPlayedAtLeastOnce] = useState(false);
 
   const eth = getEthereumObjectFromWindow();
+  const contract = getContract(eth);
 
   const handlePlayClick = () => {
     setWaitingForContractResponse(true);
     setPlayedAtLeastOnce(true);
 
-    play(eth)
+    play(contract)
       .then(() => {
         setWaitingForContractResponse(false);
       })
@@ -39,7 +41,7 @@ function App() {
         console.error(err);
       });
 
-    getContractBalance(eth)
+    getContractBalance(contract)
       .then((balance) => setContractBalance(balance))
       .catch((err) => {
         console.error(err);
