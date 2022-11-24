@@ -10,7 +10,7 @@ export const windowWithEthereumWallet = window as any as WindowWithEthereumWalle
 
 type AccountsInBrowser = string[];
 
-const contractAddress = "0x9425F287aEb94d46FeBfF996b0DbCf78E52c9D05";
+const contractAddress = "0xf48258Cd6a4C43185Df7D192bEc56983315A5c04";
 
 const contractABI = contractJson.abi;
 
