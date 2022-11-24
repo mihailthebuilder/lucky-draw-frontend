@@ -9,7 +9,7 @@ import {
   getContract,
 } from "../helpers";
 
-const WalletLoadedView = ({
+const MetamaskInstalledView = ({
   ethereumObjectInWindow,
 }: {
   ethereumObjectInWindow: providers.ExternalProvider;
@@ -62,7 +62,10 @@ const WalletLoadedView = ({
 
   return (
     <>
-      <p>Your Metamask account address: {walletAddress}</p>
+      <p>
+        Your Metamask account address:{" "}
+        {walletAddress ? walletAddress : "loading..."}
+      </p>
       <p>Balance in contract: {contractBalance}</p>
       <button onClick={handlePlayClick}>Play</button>
       {playedAtLeastOnce &&
@@ -75,4 +78,4 @@ const WalletLoadedView = ({
   );
 };
 
-export default WalletLoadedView;
+export default MetamaskInstalledView;

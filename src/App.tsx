@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import WalletLoadedView from "./WalletLoadedView";
+import MetamaskInstalledView from "./MetamaskInstalledView";
 
 import { getEthereumObjectFromWindow } from "./helpers";
 
@@ -14,7 +14,7 @@ function App() {
       </header>
       <main>
         {eth ? (
-          <WalletLoadedView ethereumObjectInWindow={eth} />
+          <MetamaskInstalledView ethereumObjectInWindow={eth} />
         ) : (
           <p>Please install Metamask and log into it, then reload the page</p>
         )}
