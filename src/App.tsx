@@ -26,8 +26,15 @@ function App() {
 
     play(contract)
       .then((winningPlay) => {
-        setWaitingForContractResponse(false);
         setWonTheDraw(winningPlay);
+        setWaitingForContractResponse(false);
+
+        setContractBalance(undefined);
+        getContractBalance(contract)
+          .then((balance) => setContractBalance(balance))
+          .catch((err) => {
+            console.error(err);
+          });
       })
       .catch((err) => {
         console.log(err);
