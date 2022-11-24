@@ -1,75 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./App.css";
+import WalletLoadedView from "./WalletLoadedView";
 
-import {
-  getContractBalance,
-  getEthereumObjectFromWindow,
-  getWalletAddress,
-  play,
-  getContract,
-} from "./helpers";
+import { getEthereumObjectFromWindow } from "./helpers";
 
 function App() {
-  const [walletAddress, setWalletAddress] = useState<string>();
-  const [contractBalance, setContractBalance] = useState<number>();
-  const [waitingForContractResponse, setWaitingForContractResponse] =
-    useState(false);
-  const [playedAtLeastOnce, setPlayedAtLeastOnce] = useState(false);
-  const [wonTheDraw, setWonTheDraw] = useState<boolean>();
-
   const eth = getEthereumObjectFromWindow();
-  const contract = getContract(eth);
-
-  const handlePlayClick = () => {
-    setWaitingForContractResponse(true);
-    setPlayedAtLeastOnce(true);
-
-    play(contract)
-      .then((winningPlay) => {
-        setWonTheDraw(winningPlay);
-        setWaitingForContractResponse(false);
-
-        setContractBalance(undefined);
-        getContractBalance(contract)
-          .then((balance) => setContractBalance(balance))
-          .catch((err) => {
-            console.error(err);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  useEffect(() => {
-    getWalletAddress(eth)
-      .then((address) => {
-        setWalletAddress(address);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-
-    getContractBalance(contract)
-      .then((balance) => setContractBalance(balance))
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
 
   return (
     <div className="App">
       <header className="App-header">
-        <p>Your Metamask account address: {walletAddress}</p>
-        <p>Balance in contract: {contractBalance}</p>
-        <button onClick={handlePlayClick}>Play</button>
-        {playedAtLeastOnce &&
-          (waitingForContractResponse ? (
-            <div>Waiting for contract response</div>
-          ) : (
-            <div>Result of the draw is: you {wonTheDraw ? "won" : "lost"}!</div>
-          ))}
+        <h1>Lucky Draw</h1>
       </header>
+      <main>
+        {eth ? (
+          <WalletLoadedView ethereumObjectInWindow={eth} />
+        ) : (
+          <p>Please install Metamask and log into it, then reload the page</p>
+        )}
+      </main>
     </div>
   );
 }
