@@ -15,6 +15,7 @@ function App() {
   const [waitingForContractResponse, setWaitingForContractResponse] =
     useState(false);
   const [playedAtLeastOnce, setPlayedAtLeastOnce] = useState(false);
+  const [wonTheDraw, setWonTheDraw] = useState<boolean>();
 
   const eth = getEthereumObjectFromWindow();
   const contract = getContract(eth);
@@ -24,8 +25,9 @@ function App() {
     setPlayedAtLeastOnce(true);
 
     play(contract)
-      .then(() => {
+      .then((winningPlay) => {
         setWaitingForContractResponse(false);
+        setWonTheDraw(winningPlay);
       })
       .catch((err) => {
         console.log(err);
@@ -58,7 +60,7 @@ function App() {
           (waitingForContractResponse ? (
             <div>Waiting for contract response</div>
           ) : (
-            <div>Result of the draw is: you won!</div>
+            <div>Result of the draw is: you {wonTheDraw ? "won" : "lost"}!</div>
           ))}
       </header>
     </div>
