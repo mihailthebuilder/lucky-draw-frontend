@@ -10,6 +10,15 @@ export const windowWithEthereumWallet = window as any as WindowWithEthereumWalle
 
 type AccountsInBrowser = string[];
 
+type LuckyDrawContract = {
+    balance(): Promise<BigNumber>
+    draw(): Promise<Transaction>
+}
+
+type Transaction = {
+    wait(): Promise<any>
+}
+
 const contractAddress = "0xf48258Cd6a4C43185Df7D192bEc56983315A5c04";
 
 const contractABI = contractJson.abi;
@@ -32,12 +41,12 @@ export const getWalletAddress = async (ethereumObjectFromWindow: providers.Exter
     return accounts[0];
 };
 
-export const getContractBalance = async (contract: Contract) => {
-    const balance = contract.balance() as Promise<BigNumber>;
+export const getContractBalance = async (contract: LuckyDrawContract) => {
+    const balance = contract.balance();
     return (await balance).toNumber();
 };
 
-export const play = async (contract: Contract) => {
+export const play = async (contract: LuckyDrawContract) => {
     const transaction = await contract.draw();
     await transaction.wait();
 }
@@ -45,5 +54,5 @@ export const play = async (contract: Contract) => {
 export const getContract = (ethereumObjectFromWindow: providers.ExternalProvider) => {
     const provider = new providers.Web3Provider(ethereumObjectFromWindow);
     const signer = provider.getSigner();
-    return new Contract(contractAddress, contractABI, signer);
+    return new Contract(contractAddress, contractABI, signer) as any as LuckyDrawContract;
 }
