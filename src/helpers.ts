@@ -8,9 +8,7 @@ type WindowWithEthereumWallet = {
 
 export const windowWithEthereumWallet = window as any as WindowWithEthereumWallet;
 
-type AccountsInBrowser = string[];
-
-export type LuckyDrawContract = {
+type LuckyDrawContract = {
     balance(): Promise<BigNumber>
     draw(): Promise<Transaction>
 }
@@ -32,22 +30,6 @@ const contractAddress = "0xf48258Cd6a4C43185Df7D192bEc56983315A5c04";
 const contractABI = contractJson.abi;
 
 export const getEthereumObjectFromWindow = () => windowWithEthereumWallet.ethereum;
-
-export const getWalletAddress = async (ethereumObjectFromWindow: providers.ExternalProvider) => {
-    if (!ethereumObjectFromWindow?.request) {
-        throw "No Ethereum object in window";
-    }
-
-    const accounts = (await ethereumObjectFromWindow.request({
-        method: "eth_accounts",
-    })) as AccountsInBrowser;
-
-    if (accounts.length == 0) {
-        throw "No authorised account found";
-    }
-
-    return accounts[0];
-};
 
 export const getContractBalance = async (contract: LuckyDrawContract) => {
     const balance = contract.balance();
@@ -72,3 +54,19 @@ export const getContract = (ethereumObjectFromWindow: providers.ExternalProvider
     const signer = provider.getSigner();
     return new Contract(contractAddress, contractABI, signer) as any as LuckyDrawContract;
 }
+
+export const connectWalletAndReturnItsAddress = async (ethereumObjectFromWindow: providers.ExternalProvider) => {
+    if (!ethereumObjectFromWindow?.request) {
+        throw "No Ethereum object in window";
+    }
+
+    const addessesOfAccountsInBrowser = await ethereumObjectFromWindow.request({
+        method: "eth_requestAccounts",
+    }) as string[];
+
+    if (addessesOfAccountsInBrowser.length > 0) {
+        return addessesOfAccountsInBrowser[0]
+    }
+
+    throw "No valid account found";
+};

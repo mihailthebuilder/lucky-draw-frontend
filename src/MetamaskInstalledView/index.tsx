@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { providers } from "ethers";
 import "./index.css";
+import ContractInstalledView from "./ContractInstalledView";
 
-import {
-  getContractBalance,
-  getWalletAddress,
-  play,
-  getContract,
-} from "../helpers";
+import { connectWalletAndReturnItsAddress } from "../helpers";
 
 const MetamaskInstalledView = ({
   ethereumObjectInWindow,
@@ -15,62 +11,23 @@ const MetamaskInstalledView = ({
   ethereumObjectInWindow: providers.ExternalProvider;
 }) => {
   const [walletAddress, setWalletAddress] = useState<string>();
-  const [contractBalance, setContractBalance] = useState<number>();
-  const [waitingForContractResponse, setWaitingForContractResponse] =
-    useState(false);
-  const [playedAtLeastOnce, setPlayedAtLeastOnce] = useState(false);
-  const [wonTheDraw, setWonTheDraw] = useState<boolean>();
 
-  const contract = getContract(ethereumObjectInWindow);
-
-  const handlePlayClick = () => {
-    setWaitingForContractResponse(true);
-    setPlayedAtLeastOnce(true);
-
-    play(contract)
-      .then((winningPlay) => {
-        setWonTheDraw(winningPlay);
-        setWaitingForContractResponse(false);
-
-        setContractBalance(undefined);
-        getContractBalance(contract)
-          .then((balance) => setContractBalance(balance))
-          .catch((err) => {
-            console.error(err);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const connectWallet = () => {
+    connectWalletAndReturnItsAddress(ethereumObjectInWindow)
+      .then((address) => setWalletAddress(address))
+      .catch((err) => console.log(err));
   };
-
-  useEffect(() => {
-    getWalletAddress(ethereumObjectInWindow)
-      .then((address) => {
-        setWalletAddress(address);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-
-    getContractBalance(contract)
-      .then((balance) => setContractBalance(balance))
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
 
   return (
     <>
-      <p>Your Metamask account address: {walletAddress}</p>
-      <p>Balance in contract: {contractBalance}</p>
-      <button onClick={handlePlayClick}>Play</button>
-      {playedAtLeastOnce &&
-        (waitingForContractResponse ? (
-          <p>Waiting for contract response...</p>
-        ) : (
-          <p>Result of the draw is: you {wonTheDraw ? "won" : "lost"}!</p>
-        ))}
+      <button onClick={connectWallet}>Connect wallet</button>
+
+      {walletAddress && (
+        <ContractInstalledView
+          ethereumObjectInWindow={ethereumObjectInWindow}
+          walletAddress={walletAddress}
+        />
+      )}
     </>
   );
 };
