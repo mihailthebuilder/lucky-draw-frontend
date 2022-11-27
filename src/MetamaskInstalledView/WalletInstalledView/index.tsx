@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { providers } from "ethers";
 import { getContractBalance, play, getContract } from "../../helpers";
 
-type TWalletInstalledView = {
+type WalletInstalledViewProps = {
   ethereumObjectInWindow: providers.ExternalProvider;
   walletAddress: string;
 };
 
-const WalletInstalledView = (props: TWalletInstalledView) => {
+const WalletInstalledView = (props: WalletInstalledViewProps) => {
   const [contractBalance, setContractBalance] = useState<number>();
   const [waitingForContractResponse, setWaitingForContractResponse] =
     useState(false);
