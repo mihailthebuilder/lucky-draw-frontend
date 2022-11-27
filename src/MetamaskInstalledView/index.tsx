@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { providers } from "ethers";
 import "./index.css";
-import ContractInstalledView from "./ContractInstalledView";
+import WalletInstalledView from "./WalletInstalledView";
 
 import { connectWalletAndReturnItsAddress } from "../helpers";
 
@@ -23,7 +23,7 @@ const MetamaskInstalledView = ({
       <button onClick={connectWallet}>Connect wallet</button>
 
       {walletAddress && (
-        <ContractInstalledView
+        <WalletInstalledView
           ethereumObjectInWindow={ethereumObjectInWindow}
           walletAddress={walletAddress}
         />
