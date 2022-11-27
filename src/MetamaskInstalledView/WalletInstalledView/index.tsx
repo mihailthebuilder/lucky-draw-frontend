@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { providers } from "ethers";
 import { getContractBalance, play, getContract } from "../../helpers";
 
-type ContractInstalledViewProps = {
+type TWalletInstalledView = {
   ethereumObjectInWindow: providers.ExternalProvider;
   walletAddress: string;
 };
 
-const ContractInstalledView = (props: ContractInstalledViewProps) => {
+const WalletInstalledView = (props: TWalletInstalledView) => {
   const [contractBalance, setContractBalance] = useState<number>();
   const [waitingForContractResponse, setWaitingForContractResponse] =
     useState(false);
@@ -43,7 +43,7 @@ const ContractInstalledView = (props: ContractInstalledViewProps) => {
       .catch((err) => {
         console.error(err);
       });
-  }, []);
+  }, [contract]);
 
   return (
     <>
@@ -60,4 +60,4 @@ const ContractInstalledView = (props: ContractInstalledViewProps) => {
   );
 };
 
-export default ContractInstalledView;
+export default WalletInstalledView;
