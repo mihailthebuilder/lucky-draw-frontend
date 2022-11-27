@@ -20,13 +20,13 @@ const MetamaskInstalledView = ({
 
   return (
     <>
-      <button onClick={connectWallet}>Connect wallet</button>
-
-      {walletAddress && (
+      {walletAddress ? (
         <WalletInstalledView
           ethereumObjectInWindow={ethereumObjectInWindow}
           walletAddress={walletAddress}
         />
+      ) : (
+        <button onClick={connectWallet}>Connect wallet</button>
       )}
     </>
   );
