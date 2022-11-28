@@ -41,8 +41,8 @@ export const play = async (contract: LuckyDrawContract) => {
     const transactionResult = await transaction.wait();
     const eventsResultingFromTransaction = transactionResult.events;
 
-    if (eventsResultingFromTransaction?.length != 1) {
-        throw "No events emitted"
+    if (eventsResultingFromTransaction?.length !== 1) {
+        throw new Error("No events emitted")
     }
 
     const eventName = eventsResultingFromTransaction[0].event;
@@ -57,7 +57,7 @@ export const getContract = (ethereumObjectFromWindow: providers.ExternalProvider
 
 export const connectWalletAndReturnItsAddress = async (ethereumObjectFromWindow: providers.ExternalProvider) => {
     if (!ethereumObjectFromWindow?.request) {
-        throw "No Ethereum object in window";
+        throw new Error("No Ethereum object in window");
     }
 
     const addessesOfAccountsInBrowser = await ethereumObjectFromWindow.request({
@@ -68,5 +68,5 @@ export const connectWalletAndReturnItsAddress = async (ethereumObjectFromWindow:
         return addessesOfAccountsInBrowser[0]
     }
 
-    throw "No valid account found";
+    throw new Error("No valid account found");
 };
