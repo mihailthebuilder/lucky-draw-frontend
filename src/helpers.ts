@@ -22,7 +22,6 @@ type TransactionResult = {
 }
 
 type DrawEvent = {
-    event: string;
     args: EventParameters
 }
 
