@@ -25,7 +25,7 @@ type Event = {
     event: "won" | "lost";
 }
 
-const contractAddress = "0xf48258Cd6a4C43185Df7D192bEc56983315A5c04";
+const contractAddress = "0xE8e9b6be92d7cf6ca4869D571894DCd607d4211D";
 
 const contractABI = contractJson.abi;
 
