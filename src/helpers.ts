@@ -18,11 +18,20 @@ type Transaction = {
 }
 
 type TransactionResult = {
-    events?: Event[]
+    events?: DrawEvent[]
 }
 
-type Event = {
-    event: "won" | "lost";
+type DrawEvent = {
+    event: string;
+    args: EventParameters
+}
+
+type EventParameters = {
+    from: string,
+    timestamp: BigNumber,
+    won: boolean,
+    newBalance: number,
+    oldBalance: number
 }
 
 const contractAddress = "0xE8e9b6be92d7cf6ca4869D571894DCd607d4211D";
@@ -36,7 +45,7 @@ export const getContractBalance = async (contract: LuckyDrawContract) => {
     return (await balance).toNumber();
 };
 
-export const play = async (contract: LuckyDrawContract) => {
+export const play: (contract: LuckyDrawContract) => Promise<boolean> = async (contract) => {
     const transaction = await contract.draw();
     const transactionResult = await transaction.wait();
     const eventsResultingFromTransaction = transactionResult.events;
@@ -45,8 +54,7 @@ export const play = async (contract: LuckyDrawContract) => {
         throw new Error("No events emitted")
     }
 
-    const eventName = eventsResultingFromTransaction[0].event;
-    return eventName === "won";
+    return eventsResultingFromTransaction[0].args.won;
 }
 
 export const getContract = (ethereumObjectFromWindow: providers.ExternalProvider) => {
