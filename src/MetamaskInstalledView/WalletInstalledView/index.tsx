@@ -5,7 +5,7 @@ import {
   play,
   getContract,
   getAllDraws,
-  EventParameters,
+  Draw,
 } from "../../helpers";
 
 type WalletInstalledViewProps = {
@@ -19,7 +19,7 @@ const WalletInstalledView = (props: WalletInstalledViewProps) => {
     useState(false);
   const [playedAtLeastOnce, setPlayedAtLeastOnce] = useState(false);
   const [wonTheDraw, setWonTheDraw] = useState<boolean>();
-  const [draws, setDraws] = useState<EventParameters[]>([]);
+  const [draws, setDraws] = useState<Draw[]>([]);
 
   const handlePlayClick = () => {
     const contract = getContract(props.ethereumObjectInWindow);
@@ -77,7 +77,7 @@ const WalletInstalledView = (props: WalletInstalledViewProps) => {
         ))}
 
       {draws.map((draw) => (
-        <div key={draw.timestamp.toNumber()}>
+        <div key={draw.timestamp.getTime()}>
           <p>{draw.from}</p>
         </div>
       ))}

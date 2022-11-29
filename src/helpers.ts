@@ -18,16 +18,24 @@ type Transaction = {
 }
 
 type TransactionResult = {
-    events?: DrawEvent[]
+    events?: Event[]
 }
 
-type DrawEvent = {
+type Event = {
     args: EventParameters
 }
 
-export type EventParameters = {
+type EventParameters = {
     from: string,
     timestamp: BigNumber,
+    won: boolean,
+    newBalance: number,
+    oldBalance: number
+}
+
+export type Draw = {
+    from: string,
+    timestamp: Date,
     won: boolean,
     newBalance: number,
     oldBalance: number
@@ -78,9 +86,18 @@ export const connectWalletAndReturnItsAddress = async (ethereumObjectFromWindow:
     throw new Error("No valid account found");
 };
 
-export const getAllDraws: (contract: LuckyDrawContract) => Promise<EventParameters[]> = async (contract) => {
+export const getAllDraws: (contract: LuckyDrawContract) => Promise<Draw[]> = async (contract) => {
     const eventFilter = contract.filters["NewDraw(address,uint256,bool,uint256,uint256)"]()
     const events = await contract.queryFilter(eventFilter)
-    const parsedEvents = events.map((event) => event?.args as unknown as EventParameters)
+    const parsedEvents = events.map((event) => {
+        const rawEvent = event?.args as unknown as EventParameters
+        return {
+            from: rawEvent.from,
+            timestamp: new Date(rawEvent.timestamp.toNumber() * 1000),
+            won: rawEvent.won,
+            newBalance: rawEvent.newBalance,
+            oldBalance: rawEvent.oldBalance
+        }
+    })
     return parsedEvents
 }
