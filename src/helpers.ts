@@ -29,8 +29,8 @@ type EventParameters = {
     from: string,
     timestamp: BigNumber,
     won: boolean,
-    newBalance: number,
-    oldBalance: number
+    newBalance: BigNumber,
+    oldBalance: BigNumber
 }
 
 export type Draw = {
@@ -95,8 +95,8 @@ export const getAllDraws: (contract: LuckyDrawContract) => Promise<Draw[]> = asy
             from: rawEvent.from,
             timestamp: new Date(rawEvent.timestamp.toNumber() * 1000),
             won: rawEvent.won,
-            newBalance: rawEvent.newBalance,
-            oldBalance: rawEvent.oldBalance
+            newBalance: rawEvent.newBalance.toNumber(),
+            oldBalance: rawEvent.oldBalance.toNumber()
         }
     })
     return parsedEvents
