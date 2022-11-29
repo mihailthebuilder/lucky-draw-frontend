@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { providers } from "ethers";
 import "./index.css";
-import WalletInstalledView from "./WalletInstalledView";
+import WalletConnectedView from "./WalletConnectedView";
 
 import { connectWalletAndReturnItsAddress } from "../helpers";
 
@@ -21,7 +21,7 @@ const MetamaskInstalledView = ({
   return (
     <>
       {walletAddress ? (
-        <WalletInstalledView
+        <WalletConnectedView
           ethereumObjectInWindow={ethereumObjectInWindow}
           walletAddress={walletAddress}
         />

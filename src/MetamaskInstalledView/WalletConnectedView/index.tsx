@@ -8,12 +8,12 @@ import {
   Draw,
 } from "../../helpers";
 
-type WalletInstalledViewProps = {
+type WalletConnectedViewProps = {
   ethereumObjectInWindow: providers.ExternalProvider;
   walletAddress: string;
 };
 
-const WalletInstalledView = (props: WalletInstalledViewProps) => {
+const WalletConnectedView = (props: WalletConnectedViewProps) => {
   const [contractBalance, setContractBalance] = useState<number>();
   const [waitingForContractResponse, setWaitingForContractResponse] =
     useState(false);
@@ -85,4 +85,4 @@ const WalletInstalledView = (props: WalletInstalledViewProps) => {
   );
 };
 
-export default WalletInstalledView;
+export default WalletConnectedView;
