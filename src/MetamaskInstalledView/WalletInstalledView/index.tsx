@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { providers } from "ethers";
-import { getContractBalance, play, getContract } from "../../helpers";
+import {
+  getContractBalance,
+  play,
+  getContract,
+  getAllDraws,
+  EventParameters,
+} from "../../helpers";
 
 type WalletInstalledViewProps = {
   ethereumObjectInWindow: providers.ExternalProvider;
@@ -13,10 +19,11 @@ const WalletInstalledView = (props: WalletInstalledViewProps) => {
     useState(false);
   const [playedAtLeastOnce, setPlayedAtLeastOnce] = useState(false);
   const [wonTheDraw, setWonTheDraw] = useState<boolean>();
-
-  const contract = getContract(props.ethereumObjectInWindow);
+  const [draws, setDraws] = useState<EventParameters[]>([]);
 
   const handlePlayClick = () => {
+    const contract = getContract(props.ethereumObjectInWindow);
+
     setWaitingForContractResponse(true);
     setPlayedAtLeastOnce(true);
 
@@ -38,12 +45,24 @@ const WalletInstalledView = (props: WalletInstalledViewProps) => {
   };
 
   useEffect(() => {
+    const contract = getContract(props.ethereumObjectInWindow);
+
     getContractBalance(contract)
-      .then((balance) => setContractBalance(balance))
+      .then((balance) => {
+        setContractBalance(balance);
+      })
       .catch((err) => {
         console.error(err);
       });
-  }, [contract]);
+
+    getAllDraws(contract)
+      .then((draws) => {
+        setDraws(draws);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [props.ethereumObjectInWindow]);
 
   return (
     <>
@@ -56,6 +75,12 @@ const WalletInstalledView = (props: WalletInstalledViewProps) => {
         ) : (
           <p>Result of the draw is: you {wonTheDraw ? "won" : "lost"}!</p>
         ))}
+
+      {draws.map((draw) => (
+        <div key={draw.timestamp.toNumber()}>
+          <p>{draw.from}</p>
+        </div>
+      ))}
     </>
   );
 };

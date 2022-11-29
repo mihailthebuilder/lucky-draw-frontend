@@ -11,7 +11,7 @@ export const windowWithEthereumWallet = window as any as WindowWithEthereumWalle
 type LuckyDrawContract = {
     balance(): Promise<BigNumber>
     draw(): Promise<Transaction>
-}
+} & Contract
 
 type Transaction = {
     wait(): Promise<TransactionResult>
@@ -25,7 +25,7 @@ type DrawEvent = {
     args: EventParameters
 }
 
-type EventParameters = {
+export type EventParameters = {
     from: string,
     timestamp: BigNumber,
     won: boolean,
@@ -77,3 +77,10 @@ export const connectWalletAndReturnItsAddress = async (ethereumObjectFromWindow:
 
     throw new Error("No valid account found");
 };
+
+export const getAllDraws: (contract: LuckyDrawContract) => Promise<EventParameters[]> = async (contract) => {
+    const eventFilter = contract.filters["NewDraw(address,uint256,bool,uint256,uint256)"]()
+    const events = await contract.queryFilter(eventFilter)
+    const parsedEvents = events.map((event) => event?.args as unknown as EventParameters)
+    return parsedEvents
+}
