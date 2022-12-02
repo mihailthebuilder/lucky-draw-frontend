@@ -1,5 +1,5 @@
 import React from "react";
-import "./App.css";
+import styles from "./App.module.css";
 import MetamaskInstalledView from "./MetamaskInstalledView";
 
 import { getEthereumObjectFromWindow } from "./helpers";
@@ -8,8 +8,8 @@ function App() {
   const eth = getEthereumObjectFromWindow();
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className={styles.App}>
+      <header>
         <h1>Lucky Draw</h1>
       </header>
       <main>

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { providers } from "ethers";
-import "./index.css";
 import WalletConnectedView from "./WalletConnectedView";
 
 import { connectWalletAndReturnItsAddress } from "../helpers";

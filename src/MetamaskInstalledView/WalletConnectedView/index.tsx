@@ -7,6 +7,7 @@ import {
   getAllDraws,
   Draw,
 } from "../../helpers";
+import styles from "./index.module.css";
 
 type WalletConnectedViewProps = {
   ethereumObjectInWindow: providers.ExternalProvider;
@@ -76,15 +77,18 @@ const WalletConnectedView = (props: WalletConnectedViewProps) => {
           <p>Result of the draw is: you {wonTheDraw ? "won" : "lost"}!</p>
         ))}
 
-      {draws.map((draw, index) => (
-        <div key={index}>
-          <p>From: {draw.from}</p>
-          <p>Outcome: {draw.won ? "won" : "lost"}</p>
-          <p>Old balance: {draw.oldBalance}</p>
-          <p>New balance: {draw.newBalance}</p>
-          <p>Datetime: {draw.timestamp.toISOString()}</p>
-        </div>
-      ))}
+      <h2>Draws</h2>
+      <div className={styles.drawContainer}>
+        {draws.map((draw, index) => (
+          <div key={index}>
+            <p>From: {draw.from}</p>
+            <p>Outcome: {draw.won ? "won" : "lost"}</p>
+            <p>Old balance: {draw.oldBalance}</p>
+            <p>New balance: {draw.newBalance}</p>
+            <p>Datetime: {draw.timestamp.toISOString()}</p>
+          </div>
+        ))}
+      </div>
     </>
   );
 };
