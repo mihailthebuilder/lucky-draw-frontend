@@ -31,7 +31,6 @@ const WalletConnectedView = (props: WalletConnectedViewProps) => {
     play(contract)
       .then((winningPlay) => {
         setWonTheDraw(winningPlay);
-        setWaitingForContractResponse(false);
 
         setContractBalance(undefined);
         getContractBalance(contract)
@@ -42,6 +41,9 @@ const WalletConnectedView = (props: WalletConnectedViewProps) => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setWaitingForContractResponse(false);
       });
   };
 
@@ -74,13 +76,17 @@ const WalletConnectedView = (props: WalletConnectedViewProps) => {
     <>
       <p>Your Metamask account address: {props.walletAddress}</p>
       <p>Balance in contract: {contractBalance}</p>
-      <button onClick={handlePlayClick}>Play</button>
+
       {playedAtLeastOnce &&
         (waitingForContractResponse ? (
-          <p>Waiting for contract response...</p>
+          <h2>Waiting for contract response...</h2>
         ) : (
-          <p>Result of the draw is: you {wonTheDraw ? "won" : "lost"}!</p>
+          <h2>Result of the draw is: you {wonTheDraw ? "won" : "lost"}!</h2>
         ))}
+
+      {!waitingForContractResponse && (
+        <button onClick={handlePlayClick}>Play</button>
+      )}
 
       <h2>Draws</h2>
       <div className={styles.drawContainer}>
