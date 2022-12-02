@@ -58,6 +58,11 @@ const WalletConnectedView = (props: WalletConnectedViewProps) => {
 
     getAllDraws(contract)
       .then((draws) => {
+        draws = draws.sort(
+          (firstDraw, secondDraw) =>
+            secondDraw.timestamp.getTime() - firstDraw.timestamp.getTime()
+        );
+
         setDraws(draws);
       })
       .catch((err) => {
