@@ -8,7 +8,7 @@ type WindowWithEthereumWallet = {
 
 export const windowWithEthereumWallet = window as any as WindowWithEthereumWallet;
 
-type LuckyDrawContract = {
+export type LuckyDrawContract = {
     draw(): Promise<Transaction>
 } & Contract
 

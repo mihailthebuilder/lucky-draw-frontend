@@ -6,6 +6,7 @@ import {
   getContract,
   getAllDraws,
   Draw,
+  LuckyDrawContract,
 } from "../../helpers";
 import styles from "./index.module.css";
 
@@ -19,8 +20,23 @@ const WalletConnectedView = (props: WalletConnectedViewProps) => {
   const [waitingForContractResponse, setWaitingForContractResponse] =
     useState(false);
   const [playedAtLeastOnce, setPlayedAtLeastOnce] = useState(false);
-  const [wonTheDraw, setWonTheDraw] = useState<boolean>();
+  const [resultOfDrawMessage, setResultOfDrawMessage] = useState("");
   const [draws, setDraws] = useState<Draw[]>([]);
+
+  const updateDraws = (contract: LuckyDrawContract) => {
+    getAllDraws(contract)
+      .then((draws) => {
+        draws = draws.sort(
+          (firstDraw, secondDraw) =>
+            secondDraw.timestamp.getTime() - firstDraw.timestamp.getTime()
+        );
+
+        setDraws(draws);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   const handlePlayClick = () => {
     const contract = getContract(props.ethereumObjectInWindow);
@@ -30,7 +46,11 @@ const WalletConnectedView = (props: WalletConnectedViewProps) => {
 
     play(contract)
       .then((winningPlay) => {
-        setWonTheDraw(winningPlay);
+        const message = `Result of the draw is: you ${
+          winningPlay ? "won" : "lost"
+        }`;
+
+        setResultOfDrawMessage(message);
 
         setContractBalance(undefined);
         getContractBalance(contract)
@@ -40,9 +60,11 @@ const WalletConnectedView = (props: WalletConnectedViewProps) => {
           });
       })
       .catch((err) => {
+        setResultOfDrawMessage("Something went wrong, try again!");
         console.log(err);
       })
       .finally(() => {
+        updateDraws(contract);
         setWaitingForContractResponse(false);
       });
   };
@@ -58,18 +80,7 @@ const WalletConnectedView = (props: WalletConnectedViewProps) => {
         console.error(err);
       });
 
-    getAllDraws(contract)
-      .then((draws) => {
-        draws = draws.sort(
-          (firstDraw, secondDraw) =>
-            secondDraw.timestamp.getTime() - firstDraw.timestamp.getTime()
-        );
-
-        setDraws(draws);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    updateDraws(contract);
   }, [props.ethereumObjectInWindow]);
 
   return (
@@ -81,7 +92,7 @@ const WalletConnectedView = (props: WalletConnectedViewProps) => {
         (waitingForContractResponse ? (
           <h2>Waiting for contract response...</h2>
         ) : (
-          <h2>Result of the draw is: you {wonTheDraw ? "won" : "lost"}!</h2>
+          <h2>{resultOfDrawMessage}</h2>
         ))}
 
       {!waitingForContractResponse && (
