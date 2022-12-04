@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  getContractBalance,
-  play,
-  getAllDraws,
-  Draw,
-  LuckyDrawContract,
-  EthereumProvider,
-} from "../../utils/helpers";
+import { Draw, EthereumProvider, LuckyDrawContract } from "../../utils/helpers";
 import contractJson from "../../utils/LuckyDraw.json";
 import styles from "./index.module.css";
 
@@ -19,7 +12,8 @@ const WalletConnectedView = (props: WalletConnectedViewProps) => {
   const [draws, setDraws] = useState<Draw[]>([]);
 
   const updateDraws = (contract: LuckyDrawContract) => {
-    getAllDraws(contract)
+    contract
+      .getAllDraws()
       .then((draws) => {
         draws = draws.sort(
           (firstDraw, secondDraw) =>
@@ -39,7 +33,8 @@ const WalletConnectedView = (props: WalletConnectedViewProps) => {
     setWaitingForContractResponse(true);
     setPlayedAtLeastOnce(true);
 
-    play(contract)
+    contract
+      .play()
       .then((winningPlay) => {
         const message = `Result of the draw is: you ${
           winningPlay ? "won" : "lost"
@@ -48,7 +43,9 @@ const WalletConnectedView = (props: WalletConnectedViewProps) => {
         setResultOfDrawMessage(message);
 
         setContractBalance(undefined);
-        getContractBalance(contract)
+
+        contract
+          .getBalance()
           .then((balance) => setContractBalance(balance))
           .catch((err) => {
             console.error(err);
@@ -67,7 +64,8 @@ const WalletConnectedView = (props: WalletConnectedViewProps) => {
   useEffect(() => {
     const contract = props.provider.getContract(contractAddress, contractABI);
 
-    getContractBalance(contract)
+    contract
+      .getBalance()
       .then((balance) => {
         setContractBalance(balance);
       })
