@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { providers } from "ethers";
 import {
   getContractBalance,
   play,
-  getContract,
   getAllDraws,
   Draw,
   LuckyDrawContract,
+  EthereumProvider,
 } from "../../utils/helpers";
+import contractJson from "../../utils/LuckyDraw.json";
 import styles from "./index.module.css";
-
-type WalletConnectedViewProps = {
-  ethereumObjectInWindow: providers.ExternalProvider;
-  walletAddress: string;
-};
 
 const WalletConnectedView = (props: WalletConnectedViewProps) => {
   const [contractBalance, setContractBalance] = useState<number>();
@@ -39,7 +34,7 @@ const WalletConnectedView = (props: WalletConnectedViewProps) => {
   };
 
   const handlePlayClick = () => {
-    const contract = getContract(props.ethereumObjectInWindow);
+    const contract = props.provider.getContract(contractAddress, contractABI);
 
     setWaitingForContractResponse(true);
     setPlayedAtLeastOnce(true);
@@ -70,7 +65,7 @@ const WalletConnectedView = (props: WalletConnectedViewProps) => {
   };
 
   useEffect(() => {
-    const contract = getContract(props.ethereumObjectInWindow);
+    const contract = props.provider.getContract(contractAddress, contractABI);
 
     getContractBalance(contract)
       .then((balance) => {
@@ -81,7 +76,7 @@ const WalletConnectedView = (props: WalletConnectedViewProps) => {
       });
 
     updateDraws(contract);
-  }, [props.ethereumObjectInWindow]);
+  }, [props.provider]);
 
   return (
     <>
@@ -114,5 +109,14 @@ const WalletConnectedView = (props: WalletConnectedViewProps) => {
     </>
   );
 };
+
+type WalletConnectedViewProps = {
+  provider: EthereumProvider;
+  walletAddress: string;
+};
+
+const contractAddress = "0xa2791C77282106b171e1133f8ACD0E597e0e9ceb";
+
+const contractABI = contractJson.abi;
 
 export default WalletConnectedView;

@@ -2,17 +2,18 @@ import React, { useState } from "react";
 import { providers } from "ethers";
 import WalletConnectedView from "../WalletConnectedView";
 
-import { connectWalletAndReturnItsAddress } from "../../utils/helpers";
+import { EthereumProvider } from "../../utils/helpers";
 
 const MetamaskInstalledView = ({
-  ethereumObjectInWindow,
+  provider,
 }: {
-  ethereumObjectInWindow: providers.ExternalProvider;
+  provider: EthereumProvider;
 }) => {
   const [walletAddress, setWalletAddress] = useState<string>();
 
   const connectWallet = () => {
-    connectWalletAndReturnItsAddress(ethereumObjectInWindow)
+    provider
+      .connectWalletAndReturnItsAddress()
       .then((address) => setWalletAddress(address))
       .catch((err) => console.log(err));
   };
@@ -21,7 +22,7 @@ const MetamaskInstalledView = ({
     <>
       {walletAddress ? (
         <WalletConnectedView
-          ethereumObjectInWindow={ethereumObjectInWindow}
+          provider={provider}
           walletAddress={walletAddress}
         />
       ) : (

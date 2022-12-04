@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./App.module.css";
 import MetamaskInstalledView from "./components/MetamaskInstalledView";
 
-import { getEthereumObjectFromWindow } from "./utils/helpers";
+import { EthereumProvider, getEthereumObjectFromWindow } from "./utils/helpers";
 
 function App() {
   const eth = getEthereumObjectFromWindow();
@@ -14,7 +14,7 @@ function App() {
       </header>
       <main>
         {eth ? (
-          <MetamaskInstalledView ethereumObjectInWindow={eth} />
+          <MetamaskInstalledView provider={new EthereumProvider(eth)} />
         ) : (
           <p>Please install Metamask and log into it, then reload the page</p>
         )}

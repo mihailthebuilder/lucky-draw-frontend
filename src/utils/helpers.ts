@@ -1,6 +1,6 @@
 import contractJson from "./LuckyDraw.json";
 
-import { providers, Contract, BigNumber, utils, BigNumberish } from "ethers";
+import { providers, Contract, BigNumber, utils, BigNumberish, ContractInterface } from "ethers";
 
 type WindowWithEthereumWallet = {
     ethereum: providers.ExternalProvider;
@@ -40,10 +40,6 @@ export type Draw = {
     oldBalance: number
 }
 
-const contractAddress = "0xa2791C77282106b171e1133f8ACD0E597e0e9ceb";
-
-const contractABI = contractJson.abi;
-
 export const getEthereumObjectFromWindow = () => windowWithEthereumWallet.ethereum;
 
 export const getContractBalance = async (contract: LuckyDrawContract) => {
@@ -63,28 +59,6 @@ export const play: (contract: LuckyDrawContract) => Promise<boolean> = async (co
     return eventsResultingFromTransaction[0].args.won;
 }
 
-export const getContract = (ethereumObjectFromWindow: providers.ExternalProvider) => {
-    const provider = new providers.Web3Provider(ethereumObjectFromWindow);
-    const signer = provider.getSigner();
-    return new Contract(contractAddress, contractABI, signer) as any as LuckyDrawContract;
-}
-
-export const connectWalletAndReturnItsAddress = async (ethereumObjectFromWindow: providers.ExternalProvider) => {
-    if (!ethereumObjectFromWindow?.request) {
-        throw new Error("No Ethereum object in window");
-    }
-
-    const addessesOfAccountsInBrowser = await ethereumObjectFromWindow.request({
-        method: "eth_requestAccounts",
-    }) as string[];
-
-    if (addessesOfAccountsInBrowser.length > 0) {
-        return addessesOfAccountsInBrowser[0]
-    }
-
-    throw new Error("No valid account found");
-};
-
 export const getAllDraws: (contract: LuckyDrawContract) => Promise<Draw[]> = async (contract) => {
     const eventFilter = contract.filters["NewDraw(address,uint256,bool,uint256,uint256)"]()
     const events = await contract.queryFilter(eventFilter)
@@ -102,3 +76,33 @@ export const getAllDraws: (contract: LuckyDrawContract) => Promise<Draw[]> = asy
 }
 
 const convertWeiToEther = (wei: BigNumberish) => Number(utils.formatEther(wei));
+
+export class EthereumProvider {
+    provider: providers.ExternalProvider;
+
+    constructor(provider: providers.ExternalProvider) {
+        this.provider = provider;
+    }
+
+    async connectWalletAndReturnItsAddress() {
+        if (!this.provider?.request) {
+            throw new Error("No Ethereum object in window");
+        }
+
+        const addessesOfAccountsInBrowser = await this.provider.request({
+            method: "eth_requestAccounts",
+        }) as string[];
+
+        if (addessesOfAccountsInBrowser.length > 0) {
+            return addessesOfAccountsInBrowser[0]
+        }
+
+        throw new Error("No valid account found");
+    };
+
+    getContract(address: string, abi: ContractInterface) {
+        const provider = new providers.Web3Provider(this.provider);
+        const signer = provider.getSigner();
+        return new Contract(address, abi, signer) as any as LuckyDrawContract;
+    }
+}
