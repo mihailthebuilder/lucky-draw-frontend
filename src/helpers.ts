@@ -1,6 +1,6 @@
 import contractJson from "./LuckyDraw.json";
 
-import { providers, Contract, BigNumber } from "ethers";
+import { providers, Contract, BigNumber, utils, BigNumberish } from "ethers";
 
 type WindowWithEthereumWallet = {
     ethereum: providers.ExternalProvider;
@@ -9,7 +9,6 @@ type WindowWithEthereumWallet = {
 export const windowWithEthereumWallet = window as any as WindowWithEthereumWallet;
 
 type LuckyDrawContract = {
-    balance(): Promise<BigNumber>
     draw(): Promise<Transaction>
 } & Contract
 
@@ -41,15 +40,15 @@ export type Draw = {
     oldBalance: number
 }
 
-const contractAddress = "0xE8e9b6be92d7cf6ca4869D571894DCd607d4211D";
+const contractAddress = "0xa2791C77282106b171e1133f8ACD0E597e0e9ceb";
 
 const contractABI = contractJson.abi;
 
 export const getEthereumObjectFromWindow = () => windowWithEthereumWallet.ethereum;
 
 export const getContractBalance = async (contract: LuckyDrawContract) => {
-    const balance = contract.balance();
-    return (await balance).toNumber();
+    const balanceInWei = await contract.provider.getBalance(contract.address);
+    return convertWeiToEther(balanceInWei);
 };
 
 export const play: (contract: LuckyDrawContract) => Promise<boolean> = async (contract) => {
@@ -95,9 +94,11 @@ export const getAllDraws: (contract: LuckyDrawContract) => Promise<Draw[]> = asy
             from: rawEvent.from,
             timestamp: new Date(rawEvent.timestamp.toNumber() * 1000),
             won: rawEvent.won,
-            newBalance: rawEvent.newBalance.toNumber(),
-            oldBalance: rawEvent.oldBalance.toNumber()
+            newBalance: convertWeiToEther(rawEvent.newBalance),
+            oldBalance: convertWeiToEther(rawEvent.oldBalance)
         }
     })
     return parsedEvents
 }
+
+const convertWeiToEther = (wei: BigNumberish) => Number(utils.formatEther(wei));
