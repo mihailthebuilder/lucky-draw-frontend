@@ -2,7 +2,7 @@ import { providers, Contract, ContractInterface } from "ethers";
 import { LuckyDrawContract, LuckyDrawEthereumAPI } from "./contract";
 
 export class EthereumProvider {
-    provider: providers.ExternalProvider;
+    private provider: providers.ExternalProvider;
 
     constructor(provider: providers.ExternalProvider) {
         this.provider = provider;
