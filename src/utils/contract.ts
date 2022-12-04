@@ -1,7 +1,7 @@
 import { Contract, BigNumber, utils, BigNumberish } from "ethers";
 
 export class LuckyDrawContract {
-    contract: LuckyDrawEthereumAPI;
+    private contract: LuckyDrawEthereumAPI;
 
     constructor(contract: LuckyDrawEthereumAPI) {
         this.contract = contract;
