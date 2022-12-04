@@ -2,7 +2,8 @@ import React from "react";
 import styles from "./App.module.css";
 import MetamaskInstalledView from "./components/MetamaskInstalledView";
 
-import { EthereumProvider, getEthereumObjectFromWindow } from "./utils/helpers";
+import { EthereumProvider } from "./utils/provider";
+import { getEthereumObjectFromWindow } from "./utils/window";
 
 function App() {
   const eth = getEthereumObjectFromWindow();

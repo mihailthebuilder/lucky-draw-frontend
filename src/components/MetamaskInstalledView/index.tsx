@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { providers } from "ethers";
 import WalletConnectedView from "../WalletConnectedView";
 
-import { EthereumProvider } from "../../utils/helpers";
+import { EthereumProvider } from "../../utils/provider";
 
 const MetamaskInstalledView = ({
   provider,

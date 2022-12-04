@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Draw, EthereumProvider, LuckyDrawContract } from "../../utils/helpers";
+import { Draw, LuckyDrawContract } from "../../utils/contract";
+import { EthereumProvider } from "../../utils/provider";
 import contractJson from "../../utils/LuckyDraw.json";
 import styles from "./index.module.css";
 
