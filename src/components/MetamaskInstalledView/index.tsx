@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { providers } from "ethers";
-import WalletConnectedView from "./WalletConnectedView";
+import WalletConnectedView from "../WalletConnectedView";
 
-import { connectWalletAndReturnItsAddress } from "../helpers";
+import { connectWalletAndReturnItsAddress } from "../../utils/helpers";
 
 const MetamaskInstalledView = ({
   ethereumObjectInWindow,

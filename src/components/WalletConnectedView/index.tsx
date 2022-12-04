@@ -7,7 +7,7 @@ import {
   getAllDraws,
   Draw,
   LuckyDrawContract,
-} from "../../helpers";
+} from "../../utils/helpers";
 import styles from "./index.module.css";
 
 type WalletConnectedViewProps = {

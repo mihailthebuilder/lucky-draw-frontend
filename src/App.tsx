@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./App.module.css";
-import MetamaskInstalledView from "./MetamaskInstalledView";
+import MetamaskInstalledView from "./components/MetamaskInstalledView";
 
-import { getEthereumObjectFromWindow } from "./helpers";
+import { getEthereumObjectFromWindow } from "./utils/helpers";
 
 function App() {
   const eth = getEthereumObjectFromWindow();
