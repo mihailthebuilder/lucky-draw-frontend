@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/lucky-draw-frontend/static/css/main.0d951e6e.css",
-    "main.js": "/lucky-draw-frontend/static/js/main.9839624c.js",
+    "main.css": "/lucky-draw-frontend/static/css/main.5d399824.css",
+    "main.js": "/lucky-draw-frontend/static/js/main.483ee443.js",
     "static/js/787.c9536716.chunk.js": "/lucky-draw-frontend/static/js/787.c9536716.chunk.js",
     "index.html": "/lucky-draw-frontend/index.html",
-    "main.0d951e6e.css.map": "/lucky-draw-frontend/static/css/main.0d951e6e.css.map",
-    "main.9839624c.js.map": "/lucky-draw-frontend/static/js/main.9839624c.js.map",
+    "main.5d399824.css.map": "/lucky-draw-frontend/static/css/main.5d399824.css.map",
+    "main.483ee443.js.map": "/lucky-draw-frontend/static/js/main.483ee443.js.map",
     "787.c9536716.chunk.js.map": "/lucky-draw-frontend/static/js/787.c9536716.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.0d951e6e.css",
-    "static/js/main.9839624c.js"
+    "static/css/main.5d399824.css",
+    "static/js/main.483ee443.js"
   ]
 }
