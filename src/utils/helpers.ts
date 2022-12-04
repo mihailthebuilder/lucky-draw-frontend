@@ -1,5 +1,3 @@
-import contractJson from "./LuckyDraw.json";
-
 import { providers, Contract, BigNumber, utils, BigNumberish, ContractInterface } from "ethers";
 
 type WindowWithEthereumWallet = {
