@@ -6,4 +6,4 @@ type WindowWithEthereumWallet = {
 
 const windowWithEthereumWallet = window as any as WindowWithEthereumWallet;
 
-export const getEthereumObjectFromWindow = () => windowWithEthereumWallet.ethereum;
+export const getProvider = () => windowWithEthereumWallet.ethereum;
