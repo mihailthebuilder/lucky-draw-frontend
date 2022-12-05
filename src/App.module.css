@@ -1,5 +1,5 @@
 .App {
-  @apply mt-20;
+  @apply m-20;
   text-align: center;
   color: white;
 }
